@@ -1,10 +1,10 @@
+const server_url = process.env.SERVER_URL;
+
 export async function createTicket(
   name: string,
   email: string,
   description: string
 ) {
-  const server_url = process.env.SERVER_URL;
-  console.log(server_url);
   const response = await fetch(`${server_url}/ticket`, {
     method: "POST",
     body: JSON.stringify({ name, email, description }),
@@ -20,7 +20,6 @@ export async function createTicket(
 }
 
 export async function updateTicket(id: number, status: string) {
-  const server_url = process.env.SERVER_URL;
   const response = await fetch(`${server_url}/ticket/${id}/status`, {
     method: "PUT",
     body: JSON.stringify({ status }),
@@ -36,7 +35,6 @@ export async function updateTicket(id: number, status: string) {
 }
 
 export async function respondToTicket(id: number, responseText: string) {
-  const server_url = process.env.SERVER_URL;
   const response = await fetch(`${server_url}/ticket/${id}/response`, {
     method: "POST",
     body: JSON.stringify({ response: responseText }),
@@ -52,10 +50,10 @@ export async function respondToTicket(id: number, responseText: string) {
 }
 
 export async function getTickets() {
-  const server_url = process.env.SERVER_URL;
   const response = await fetch(`${server_url}/tickets`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    cache: "reload",
   });
 
   if (!response.ok) {
@@ -67,7 +65,6 @@ export async function getTickets() {
 }
 
 export async function getTicket(id: number) {
-  const server_url = process.env.SERVER_URL;
   const response = await fetch(`${server_url}/ticket/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },

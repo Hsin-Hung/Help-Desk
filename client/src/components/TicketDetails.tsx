@@ -71,7 +71,6 @@ const TicketDetails = ({ id, name, email, description, status }: Ticket) => {
         throw new Error(data.error);
       }
 
-      console.log(data);
       setNewStatus(newStatus);
       setModal({
         open: true,

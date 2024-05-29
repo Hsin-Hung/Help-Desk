@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getTicket } from "@/app/api/ticketApi";
 
 export const dynamic = "force-dynamic"; // defaults to auto
+export const revalidate = 0;
 
 export async function GET(
   request: NextRequest,

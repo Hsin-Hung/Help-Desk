@@ -26,7 +26,13 @@ const TicketsTable = () => {
             </th>
           ))}
           <th className="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 border border-slate-600">
-            <button onClick={() => mutate()}>Refresh</button>
+            <button
+              onClick={() => {
+                mutate();
+              }}
+            >
+              Refresh
+            </button>
           </th>
         </tr>
       </thead>
