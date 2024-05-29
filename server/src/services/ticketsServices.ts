@@ -13,7 +13,10 @@ export const insertTicket = async (
 };
 
 export const updateTicket = async (id: number, status: Status) => {
-  return await client().from("tickets").update({ status: status }).eq("id", id);
+  return await client()
+    .from("tickets")
+    .update({ status: status }, { count: "exact" })
+    .eq("id", id);
 };
 
 export const fetchTickets = async () => {

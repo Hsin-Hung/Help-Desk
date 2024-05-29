@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import {
   createTicket,
@@ -12,7 +12,7 @@ import {
 } from "./controllers/ticketsController";
 import { connect } from "./db";
 
-const app = express();
+const app: Express = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());

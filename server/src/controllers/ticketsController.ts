@@ -90,6 +90,9 @@ export const updateTicket = async (req: Request, res: Response) => {
     console.log(`updating ticket status with id: ${id} to ${status}`);
     const data = await updateTicketStatus(id, status);
     if (data.status == DBStatusCode.Update) {
+      if (data.count == 0) {
+        return res.status(404).json({ error: "Ticket not found" });
+      }
       res.json({ status: data.status, statusText: data.statusText });
     } else {
       res.status(data.status).json({ error: data.statusText });
