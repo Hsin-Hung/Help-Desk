@@ -8,7 +8,6 @@ export const insertTicket = async (name: string, email: string, description: str
 }
 
 export const updateTicket = async (id: number, status: Status) => {
-    console.log(id, status);
     return await client()
         .from('tickets')
         .update({status : status})
@@ -19,4 +18,12 @@ export const fetchTickets = async () => {
     return await client()
         .from('tickets')
         .select();
+}
+
+export const fetchTicket = async (id: number) => {
+    return await client()
+        .from('tickets')
+        .select()
+        .eq('id', id)
+        .single();
 }

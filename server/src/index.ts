@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import { createTicket, getTickets, updateTicket, respondToTicket } from './controllers/ticketsController';
+import { createTicket, getTickets, getTicket, updateTicket, respondToTicket } from './controllers/ticketsController';
 import { connect } from './db';
 
 dotenv.config()
@@ -16,6 +16,8 @@ connect();
 app.post('/ticket', createTicket);
 
 app.get('/tickets', getTickets);
+
+app.get('/ticket/:id', getTicket);
 
 app.put('/ticket/:id/status', updateTicket);
 
