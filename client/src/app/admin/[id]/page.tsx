@@ -13,23 +13,17 @@ export default function TicketDetailsPage({
   params: { id: string };
 }) {
   const _id = Number(params.id);
-  const { data, error } = useSWR(`/api/ticket/${_id}`, fetcher, {
+  const { data, error, mutate } = useSWR(`/api/ticket/${_id}`, fetcher, {
     revalidateOnFocus: false,
   });
-  const { id, name, email, description, status } = data?.data ?? {};
+
+  const ticket = data?.data ?? {};
   return (
     <div className="flex items-center justify-center pt-4">
       {error && <div>Failed to load</div>}
       {!data && <div>Loading...</div>}
       {data && !error && (
-        <TicketDetails
-          key={id}
-          id={id}
-          name={name}
-          email={email}
-          description={description}
-          status={status}
-        />
+        <TicketDetails key={ticket.id} ticket={ticket} mutate={mutate} />
       )}
     </div>
   );

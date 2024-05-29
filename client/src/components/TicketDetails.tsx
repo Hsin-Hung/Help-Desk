@@ -3,8 +3,17 @@ import React, { useState } from "react";
 import { Ticket } from "@/data/ticketData";
 import { ModalState } from "@/data/modal";
 import Modal from "./Modal";
+import { KeyedMutator } from "swr";
 
-const TicketDetails = ({ id, name, email, description, status }: Ticket) => {
+const TicketDetails = ({
+  ticket,
+  mutate,
+}: {
+  ticket: Ticket;
+  mutate: KeyedMutator<any>;
+}) => {
+  const { id, name, email, description, status } = ticket;
+
   const [newStatus, setNewStatus] = useState(status);
   const [responseText, setResponse] = useState("");
   const [modal, setModal] = useState<ModalState>({
@@ -70,7 +79,7 @@ const TicketDetails = ({ id, name, email, description, status }: Ticket) => {
       if (!data.ok) {
         throw new Error(data.error);
       }
-
+      mutate();
       setNewStatus(newStatus);
       setModal({
         open: true,

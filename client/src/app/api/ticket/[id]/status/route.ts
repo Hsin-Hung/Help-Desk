@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateTicket } from "@/app/api/ticketApi";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function PUT(
   request: NextRequest,
