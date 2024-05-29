@@ -13,7 +13,9 @@ export default function TicketDetailsPage({
   params: { id: string };
 }) {
   const _id = Number(params.id);
-  const { data, error } = useSWR(`/api/ticket/${_id}`, fetcher);
+  const { data, error } = useSWR(`/api/ticket/${_id}`, fetcher, {
+    revalidateOnFocus: false,
+  });
   const { id, name, email, description, status } = data?.data ?? {};
   return (
     <div className="flex items-center justify-center pt-4">

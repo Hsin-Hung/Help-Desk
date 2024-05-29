@@ -1,9 +1,21 @@
+"use client";
 import { Ticket } from "@/data/ticketData";
 import Link from "next/link";
+import useSWR from "swr";
 
-const TicketsTable = ({ data }: { data: Ticket[] }) => {
+const fetcher = (url: string) =>
+  fetch(url, {
+    method: "GET",
+  }).then((res) => res.json());
+
+const TicketsTable = () => {
   const columns = ["ID", "Name", "E-mail", "Description", "Status"];
+  const { data, error, mutate } = useSWR(`/api/tickets`, fetcher, {
+    revalidateOnFocus: false,
+  });
+  const tickets = data?.data ?? [];
 
+  console.log(tickets);
   return (
     <table className="table-fixed border-collapse border border-slate-500 grow">
       <thead>
@@ -13,10 +25,13 @@ const TicketsTable = ({ data }: { data: Ticket[] }) => {
               {column}
             </th>
           ))}
+          <th className="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 border border-slate-600">
+            <button onClick={() => mutate()}>Refresh</button>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {data.map((t: Ticket) => (
+        {tickets.map((t: Ticket) => (
           <tr key={t.id}>
             <td className="border border-slate-700 p-2">{t.id}</td>
             <td className="border border-slate-700 p-2">{t.name}</td>

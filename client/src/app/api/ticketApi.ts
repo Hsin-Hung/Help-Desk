@@ -37,7 +37,7 @@ export async function updateTicket(id: number, status: string) {
 
 export async function respondToTicket(id: number, responseText: string) {
   const server_url = process.env.SERVER_URL;
-  const response = await fetch(`${server_url}/ticket/${id}/respond`, {
+  const response = await fetch(`${server_url}/ticket/${id}/response`, {
     method: "POST",
     body: JSON.stringify({ response: responseText }),
     headers: { "Content-Type": "application/json" },

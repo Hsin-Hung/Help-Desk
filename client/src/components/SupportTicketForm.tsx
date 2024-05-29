@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import Modal from "./Modal";
+import { ModalState } from "@/data/modal";
 
 interface SupportTicket {
   name: string;
@@ -12,6 +14,11 @@ export default function SupportTicketForm() {
     name: "",
     email: "",
     description: "",
+  });
+  const [modal, setModal] = useState<ModalState>({
+    open: false,
+    message: "",
+    isSuccess: false,
   });
 
   const handleChange = (
@@ -28,18 +35,32 @@ export default function SupportTicketForm() {
         method: "POST",
         body: JSON.stringify(ticket),
       });
-
       if (!response.ok) {
-        console.log(response);
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log(data);
+      if (!data.ok) {
+        throw new Error(data.error);
+      }
+      setTicket({
+        name: "",
+        email: "",
+        description: "",
+      });
+      setModal({
+        open: true,
+        message: "Ticket successfully created!",
+        isSuccess: true,
+      });
       // Here you can handle the response from the server
     } catch (error) {
       console.error("Error:", error);
-      // Here you can handle errors
+      setModal({
+        open: true,
+        message: "An error occurred while creating the ticket.",
+        isSuccess: false,
+      });
     }
   };
 
@@ -85,10 +106,11 @@ export default function SupportTicketForm() {
             </div>
             <label>
               <textarea
-                className="focus:ring-primary-600 w-full h-64 rounded-md px-4 focus:border-transparent focus:outline-none focus:ring-2 dark:bg-black"
+                className="focus:ring-primary-600 w-full h-64 rounded-md p-4 focus:border-transparent focus:outline-none focus:ring-2 dark:bg-black"
                 name="description"
                 value={ticket.description}
                 onChange={handleChange}
+                placeholder="Enter ticket description"
                 required
               />
             </label>
@@ -104,6 +126,7 @@ export default function SupportTicketForm() {
             </button>
           </div>
         </div>
+        <Modal modal={modal} setModal={setModal} />
       </form>
     </div>
   );

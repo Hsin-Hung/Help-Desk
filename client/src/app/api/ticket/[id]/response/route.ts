@@ -7,18 +7,28 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const body = await request.json();
-  const { response } = body;
-  const id = Number(params.id);
+  try {
+    const body = await request.json();
+    const { response } = body;
+    const id = Number(params.id);
 
-  if (isNaN(id)) {
-    return {
-      status: 400,
-      body: "Valid ID and response are required.",
-    };
+    if (isNaN(id)) {
+      return NextResponse.json({
+        ok: false,
+        status: 400,
+        error: "Valid ID and response are required.",
+      });
+    }
+
+    const data = await respondToTicket(id, response);
+
+    return NextResponse.json({ ok: true, ...data });
+  } catch (e) {
+    console.log("error", e);
+    return NextResponse.json({
+      ok: false,
+      status: 500,
+      error: "Failed to respond to ticket!",
+    });
   }
-
-  const data = await respondToTicket(id, response);
-
-  return NextResponse.json(data);
 }
