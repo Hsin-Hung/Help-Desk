@@ -1,31 +1,47 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import { createTicket, getTickets, getTicket, updateTicket, respondToTicket } from './controllers/ticketsController';
-import { connect } from './db';
+import dotenv from "dotenv";
+dotenv.config();
 
-dotenv.config()
+import express from "express";
+import cors from "cors";
+import {
+  createTicket,
+  getTickets,
+  getTicket,
+  updateTicket,
+  respondToTicket,
+} from "./controllers/ticketsController";
+import { connect } from "./db";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json())
-
-const PORT = process.env.PORT || 8080
+app.use(cors());
+app.use(express.json());
 
 connect();
 
-app.post('/ticket', createTicket);
+app.post("/ticket", createTicket);
 
-app.get('/tickets', getTickets);
+app.get("/tickets", getTickets);
 
-app.get('/ticket/:id', getTicket);
+app.get("/ticket/:id", getTicket);
 
-app.put('/ticket/:id/status', updateTicket);
+app.put("/ticket/:id/status", updateTicket);
 
-app.post('/ticket/:id/respond', respondToTicket);
+app.post("/ticket/:id/response", respondToTicket);
 
-app.listen(PORT, async () => {
-  console.log(`listning on port ${PORT}`)
-})
+const server = app.listen(PORT, async () => {
+  console.log(`listning on port ${PORT}`);
+});
 
-//exporting app
-module.exports = app
+process.on("SIGTERM", async () => {
+  try {
+    if (server) {
+      await server.close();
+    }
+    console.log("Graceful shutdown complete");
+  } catch (error) {
+    console.log(error);
+  }
+  process.exit(0);
+});
