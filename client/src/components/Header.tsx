@@ -2,6 +2,7 @@ import headerNavLinks from "@/data/headerNavLinks";
 import siteMetadata from "@/data/siteMetadata";
 import Link from "next/link";
 import ThemeSwitch from "./ThemeSwitch";
+import MobileNav from "./MobileNav";
 
 const Header = () => {
   return (
@@ -30,6 +31,7 @@ const Header = () => {
           </Link>
         ))}
         <ThemeSwitch />
+        <MobileNav/>
       </div>
     </header>
   );
