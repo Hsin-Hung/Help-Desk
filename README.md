@@ -1,3 +1,3 @@
 # Help Desk
 
-[website](https://help-desk-omega.vercel.app/)
+A basic "help desk" support ticket management system built with React, Node, Express, and Supabase.
